@@ -13,9 +13,20 @@ export interface SessionData {
 }
 
 export async function verifyUserCredentials(identifier: string, password: string) {
+  const trimmed = identifier.trim();
+  const cleanPhone = trimmed.replace(/[^0-9]/g, "");
+
   const user = await prisma.user.findFirst({
     where: {
-      OR: [{ email: identifier }, { phone: identifier }],
+      OR: [
+        { email: { equals: trimmed, mode: "insensitive" } },
+        { phone: trimmed },
+        ...(cleanPhone ? [{ phone: cleanPhone }] : []),
+        { name: { equals: trimmed, mode: "insensitive" } },
+        ...(trimmed.toLowerCase() === "admin"
+          ? [{ email: "admin@manikantafinance.com" }]
+          : []),
+      ],
     },
   });
 

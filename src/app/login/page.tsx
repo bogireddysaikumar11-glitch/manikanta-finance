@@ -27,7 +27,7 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [identifier, setIdentifier] = useState("admin@manikantafinance.com");
+  const [identifier, setIdentifier] = useState("admin");
   const [password, setPassword] = useState("Admin@Manikanta2026");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
@@ -42,7 +42,7 @@ export default function LoginPage() {
 
   // 1-Click Fast Autofill Demo Credentials
   const handleQuickAutofill = () => {
-    setIdentifier("admin@manikantafinance.com");
+    setIdentifier("admin");
     setPassword("Admin@Manikanta2026");
     setError(null);
   };
@@ -274,7 +274,7 @@ export default function LoginPage() {
                 <div className="flex items-center gap-2 text-xs text-slate-700">
                   <Zap className="w-4 h-4 text-amber-500 shrink-0" />
                   <span>
-                    Demo Account: <strong className="text-slate-900">Sai Kumar (Admin)</strong>
+                    Login: <strong className="text-slate-900 font-mono">admin</strong> or <strong className="text-slate-900 font-mono">9876543210</strong>
                   </span>
                 </div>
                 <button
@@ -307,7 +307,7 @@ export default function LoginPage() {
                 <form onSubmit={handleCredentialsSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                      Email or Registered Mobile
+                      Username or Mobile Number
                     </label>
                     <div className="relative">
                       <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
@@ -316,7 +316,7 @@ export default function LoginPage() {
                         required
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
-                        placeholder="admin@manikantafinance.com"
+                        placeholder="Enter username or mobile number (e.g. admin or 9876543210)"
                         className="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none transition-all"
                       />
                     </div>
