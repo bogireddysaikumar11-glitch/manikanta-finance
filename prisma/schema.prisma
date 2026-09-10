@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  phone            String?    @unique
+  name             String
+  passwordHash     String
+  role             String     @default("ADMIN")
+  twoFactorSecret  String?    @default("202600")
+  twoFactorEnabled Boolean    @default(true)
+  lastLogin        DateTime?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  auditLogs        AuditLog[]
+}
+
+model Bike {
+  id                   Int       @id @default(autoincrement())
+  bikeCode             String    @unique // e.g. MF-2026-0001
+  brand                String    // Honda, Hero, Bajaj, TVS, Yamaha, Royal Enfield
+  model                String    // Activa 6G, Splendor+, Pulsar 150, etc.
+  year                 Int       // e.g. 2021
+  regNo                String    @unique // e.g. AP29BZ1234
+  engineNo             String
+  chassisNo            String
+  purchasePrice        Float     // What shop paid
+  repairCost           Float     @default(0) // Total repairs added
+  totalInvestment      Float     // purchasePrice + repairCost
+  expectedSellingPrice Float     // Target list price
+  actualSellingPrice   Float?    // Final sold price
+  status               String    @default("AVAILABLE") // AVAILABLE, IN_REPAIR, SOLD, RESERVED
+  primaryPhoto         String?   @default("/bikes/default-bike.jpg")
+  photos               String?   @default("[]") // JSON string of photo paths
+  documents            String?   @default("[]") // JSON string of RC, Insurance, NOC
+  sellerName           String?
+  sellerPhone          String?
+  purchaseDate         DateTime  @default(now())
+  notes                String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  sales                Sale[]
+  expenses             Expense[]
+}
+
+model Customer {
+  id             Int       @id @default(autoincrement())
+  name           String
+  phone          String    @unique
+  alternatePhone String?
+  aadharNo       String?
+  address        String
+  city           String?   @default("Miryalaguda")
+  idProofDoc     String?
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sales          Sale[]
+  payments       Payment[]
+}
+
+model Sale {
+  id               Int       @id @default(autoincrement())
+  invoiceNo        String    @unique // INV-2026-0001
+  bikeId           Int
+  customerId       Int
+  saleDate         DateTime  @default(now())
+  agreedPrice      Float
+  downPayment      Float
+  pendingAmount    Float     // agreedPrice - total paid
+  paymentType      String    @default("FULL_CASH") // FULL_CASH, EMI, HYBRID
+  emiMonths        Int?      @default(0)
+  emiMonthlyAmount Float?    @default(0)
+  nextDueDate      DateTime?
+  status           String    @default("ACTIVE") // ACTIVE, COMPLETED, DEFAULTED
+  notes            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  bike             Bike      @relation(fields: [bikeId], references: [id])
+  customer         Customer  @relation(fields: [customerId], references: [id])
+  payments         Payment[]
+}
+
+model Payment {
+  id          Int      @id @default(autoincrement())
+  receiptNo   String   @unique // REC-2026-0001
+  saleId      Int
+  customerId  Int
+  amount      Float
+  paymentDate DateTime @default(now())
+  paymentMode String   @default("CASH") // CASH, UPI, BANK_TRANSFER, CHEQUE
+  referenceNo String?  // UTR / Cheque No
+  notes       String?
+  recordedBy  String   @default("Admin")
+  createdAt   DateTime @default(now())
+  sale        Sale     @relation(fields: [saleId], references: [id])
+  customer    Customer @relation(fields: [customerId], references: [id])
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String   // SHOP_RENT, REPAIR_PARTS, MECHANIC_WAGES, TEA_SNACKS, ELECTRICITY, RTO_POLICE, OTHER
+  amount      Float
+  expenseDate DateTime @default(now())
+  paymentMode String   @default("CASH") // CASH, UPI
+  bikeId      Int?
+  notes       String?
+  recordedBy  String   @default("Admin")
+  createdAt   DateTime @default(now())
+  bike        Bike?    @relation(fields: [bikeId], references: [id])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  entityType  String   // BIKE, SALE, PAYMENT, EXPENSE, CUSTOMER, AUTH
+  entityId    String
+  action      String   // CREATE, UPDATE, DELETE, PAYMENT_RECEIVED, STATUS_CHANGE, LOGIN
+  performedBy String   @default("Admin")
+  description String
+  oldValue    String?  @default("{}")
+  newValue    String?  @default("{}")
+  ipAddress   String?  @default("127.0.0.1")
+  timestamp   DateTime @default(now())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id])
+}

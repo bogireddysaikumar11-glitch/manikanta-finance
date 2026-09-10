@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  color: #0f172a;
+  background-color: #f8fafc;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Custom Luxury Animations for Manikanta Finance */
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.35), 0 0 45px rgba(234, 179, 8, 0.15);
+    border-color: rgba(234, 179, 8, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(234, 179, 8, 0.65), 0 0 70px rgba(234, 179, 8, 0.3);
+    border-color: rgba(250, 204, 21, 0.9);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.04);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(12px) scale(0.96);
+  }
+}
+
+@keyframes wheel-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes needle-rev {
+  0% {
+    transform: rotate(-120deg);
+  }
+  30% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  80% {
+    transform: rotate(95deg);
+  }
+  100% {
+    transform: rotate(-120deg);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+.animate-wheel-spin {
+  animation: wheel-spin 2.2s linear infinite;
+}
+
+.animate-needle-rev {
+  animation: needle-rev 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer-sweep 2.5s infinite;
+}
+
