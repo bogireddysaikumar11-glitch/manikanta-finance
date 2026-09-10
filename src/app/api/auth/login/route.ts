@@ -17,12 +17,16 @@ export async function POST(req: Request) {
     const user = await verifyUserCredentials(identifier.trim(), password);
 
     if (!user) {
-      await recordAuditLog({
-        entityType: "AUTH",
-        entityId: identifier,
-        action: "FAILED_LOGIN",
-        description: `Failed login attempt for identifier: ${identifier}`,
-      });
+      try {
+        await recordAuditLog({
+          entityType: "AUTH",
+          entityId: identifier,
+          action: "FAILED_LOGIN",
+          description: `Failed login attempt for identifier: ${identifier}`,
+        });
+      } catch (logErr) {
+        console.warn("Audit log warning on failed login:", logErr);
+      }
       return NextResponse.json(
         { error: "Invalid username/phone or password" },
         { status: 401 }

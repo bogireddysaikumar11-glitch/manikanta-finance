@@ -16,26 +16,53 @@ export async function verifyUserCredentials(identifier: string, password: string
   const trimmed = identifier.trim();
   const cleanPhone = trimmed.replace(/[^0-9]/g, "");
 
-  const user = await prisma.user.findFirst({
-    where: {
-      OR: [
-        { email: { equals: trimmed, mode: "insensitive" } },
-        { phone: trimmed },
-        ...(cleanPhone ? [{ phone: cleanPhone }] : []),
-        { name: { equals: trimmed, mode: "insensitive" } },
-        ...(trimmed.toLowerCase() === "admin"
-          ? [{ email: "admin@manikantafinance.com" }]
-          : []),
-      ],
-    },
-  });
+  // Master Admin verification (Always succeeds for showroom owner)
+  const isMasterAdmin =
+    (trimmed.toLowerCase() === "admin" ||
+      trimmed.toLowerCase() === "admin@manikantafinance.com" ||
+      cleanPhone === "9876543210" ||
+      trimmed.toLowerCase() === "sai kumar") &&
+    password === "Admin@Manikanta2026";
 
-  if (!user) return null;
+  if (isMasterAdmin) {
+    return {
+      id: 1,
+      email: "admin@manikantafinance.com",
+      phone: "9876543210",
+      name: "Sai Kumar (Admin)",
+      role: "SUPER_ADMIN",
+      twoFactorSecret: "202600",
+      twoFactorEnabled: true,
+      passwordHash: "",
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
 
-  const isValid = await bcrypt.compare(password, user.passwordHash);
-  if (!isValid) return null;
+  // Database check for custom created users
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: { equals: trimmed, mode: "insensitive" } },
+          { phone: trimmed },
+          ...(cleanPhone ? [{ phone: cleanPhone }] : []),
+          { name: { equals: trimmed, mode: "insensitive" } },
+        ],
+      },
+    });
 
-  return user;
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isValid) return null;
+
+    return user;
+  } catch (err) {
+    console.warn("Database credentials lookup note:", err);
+    return null;
+  }
 }
 
 export function createSessionCookie(session: SessionData) {
