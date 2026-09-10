@@ -52,9 +52,10 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 🔑 Demo Credentials
+### 🔑 Showroom Admin Credentials
+- **Username / Mobile**: `manikantareddy` or `admin` or `9876543210`
 - **Email**: `admin@manikantafinance.com`
-- **Password**: `Admin@Manikanta2026`
+- **Password**: `manikanta04`
 - **2FA Code**: `202600`
 
 ---

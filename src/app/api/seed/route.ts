@@ -25,17 +25,25 @@ export async function GET(req: NextRequest) {
       where: { email: "admin@manikantafinance.com" },
     });
 
+    const hashedPassword = await bcrypt.hash("manikanta04", 10);
     if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash("Admin@Manikanta2026", 10);
       await prisma.user.create({
         data: {
           email: "admin@manikantafinance.com",
           phone: "9876543210",
-          name: "Manikanta Admin",
+          name: "Manikanta Reddy",
           passwordHash: hashedPassword,
           role: "SUPER_ADMIN",
           twoFactorSecret: "202600",
           twoFactorEnabled: true,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: { email: "admin@manikantafinance.com" },
+        data: {
+          name: "Manikanta Reddy",
+          passwordHash: hashedPassword,
         },
       });
     }

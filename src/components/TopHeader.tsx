@@ -116,11 +116,11 @@ export default function TopHeader({ onToggleSidebar }: TopHeaderProps) {
             className="flex items-center gap-3 p-1.5 sm:px-3 sm:py-1.5 rounded-lg hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200"
           >
             <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-xs">
-              SK
+              MR
             </div>
             <div className="hidden sm:block text-left">
               <div className="text-sm font-semibold text-slate-800 leading-tight">
-                Sai Kumar
+                Manikanta Reddy
               </div>
               <div className="text-xs text-slate-500 font-normal leading-none mt-0.5">
                 Admin
@@ -133,7 +133,7 @@ export default function TopHeader({ onToggleSidebar }: TopHeaderProps) {
           {showProfileMenu && (
             <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50 animate-in fade-in">
               <div className="px-4 py-2 border-b border-slate-100">
-                <div className="text-sm font-semibold text-slate-900">Sai Kumar</div>
+                <div className="text-sm font-semibold text-slate-900">Manikanta Reddy</div>
                 <div className="text-xs text-slate-500">
                   admin@manikantafinance.com
                 </div>

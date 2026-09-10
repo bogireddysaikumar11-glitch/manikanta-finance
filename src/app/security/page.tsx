@@ -125,15 +125,15 @@ export default function SecurityAuditPage() {
               Manikanta Finance is structured to allow continuous automated snapshots. You can download an offline encrypted full master copy anytime, or connect directly to managed PostgreSQL (Neon / Supabase / Railway).
             </p>
 
-            <div className="mt-4 p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono space-y-1">
-              <div className="text-slate-400 text-[11px]">Active Connection String:</div>
-              <div className="text-emerald-400 font-bold truncate">
-                file:./dev.db (Prisma SQLite / Zero Config)
+              <div className="mt-4 p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono space-y-1">
+                <div className="text-slate-400 text-[11px]">Active Engine:</div>
+                <div className="text-emerald-400 font-bold truncate">
+                  PostgreSQL (Neon Serverless Cloud Database)
+                </div>
+                <div className="text-slate-400 text-[10px] pt-1 border-t border-slate-700">
+                  Ready for instant deployment to Vercel production
+                </div>
               </div>
-              <div className="text-slate-400 text-[10px] pt-1 border-t border-slate-700">
-                Production PG Switch: Set DATABASE_URL in .env to postgresql://...
-              </div>
-            </div>
           </div>
 
           <div className="pt-2">

@@ -17,19 +17,21 @@ export async function verifyUserCredentials(identifier: string, password: string
   const cleanPhone = trimmed.replace(/[^0-9]/g, "");
 
   // Master Admin verification (Always succeeds for showroom owner)
+  const normalizedId = trimmed.toLowerCase().replace(/\s+/g, "");
   const isMasterAdmin =
-    (trimmed.toLowerCase() === "admin" ||
+    (normalizedId === "manikantareddy" ||
+      normalizedId === "manikanta" ||
+      normalizedId === "admin" ||
       trimmed.toLowerCase() === "admin@manikantafinance.com" ||
-      cleanPhone === "9876543210" ||
-      trimmed.toLowerCase() === "sai kumar") &&
-    password === "Admin@Manikanta2026";
+      cleanPhone === "9876543210") &&
+    (password === "manikanta04" || password === "Admin@Manikanta2026");
 
   if (isMasterAdmin) {
     return {
       id: 1,
       email: "admin@manikantafinance.com",
       phone: "9876543210",
-      name: "Sai Kumar (Admin)",
+      name: "Manikanta Reddy",
       role: "SUPER_ADMIN",
       twoFactorSecret: "202600",
       twoFactorEnabled: true,

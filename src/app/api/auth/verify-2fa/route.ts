@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       user = {
         id: 1,
         email: "admin@manikantafinance.com",
-        name: "Sai Kumar (Admin)",
+        name: "Manikanta Reddy",
         role: "SUPER_ADMIN",
         twoFactorSecret: "202600",
       };

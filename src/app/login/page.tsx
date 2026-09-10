@@ -27,25 +27,18 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [identifier, setIdentifier] = useState("admin");
-  const [password, setPassword] = useState("Admin@Manikanta2026");
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
 
   const [step, setStep] = useState<"credentials" | "2fa">("credentials");
-  const [twoFactorCode, setTwoFactorCode] = useState("202600");
+  const [twoFactorCode, setTwoFactorCode] = useState("");
   const [userId, setUserId] = useState<number | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-
-  // 1-Click Fast Autofill Demo Credentials
-  const handleQuickAutofill = () => {
-    setIdentifier("admin");
-    setPassword("Admin@Manikanta2026");
-    setError(null);
-  };
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -269,23 +262,6 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Quick Demo Autofill Pill (Executive Style) */}
-              <div className="mb-5 flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl p-2.5">
-                <div className="flex items-center gap-2 text-xs text-slate-700">
-                  <Zap className="w-4 h-4 text-amber-500 shrink-0" />
-                  <span>
-                    Login: <strong className="text-slate-900 font-mono">admin</strong> or <strong className="text-slate-900 font-mono">9876543210</strong>
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleQuickAutofill}
-                  className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-xs font-bold transition-colors shadow-2xs"
-                >
-                  Fill Demo
-                </button>
-              </div>
-
               {/* Error Notification */}
               {error && (
                 <div className="mb-5 p-3 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-2.5 text-rose-700 text-xs font-medium animate-in fade-in">
@@ -316,7 +292,7 @@ export default function LoginPage() {
                         required
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
-                        placeholder="Enter username or mobile number (e.g. admin or 9876543210)"
+                        placeholder="Enter username or mobile number"
                         className="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none transition-all"
                       />
                     </div>
@@ -409,15 +385,15 @@ export default function LoginPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1.5 text-center uppercase tracking-wider">
-                      Security Code (Default Demo: 202600)
+                      Security Verification PIN
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       maxLength={6}
                       required
                       value={twoFactorCode}
                       onChange={(e) => setTwoFactorCode(e.target.value)}
-                      placeholder="202600"
+                      placeholder="••••••"
                       className="w-full py-3 text-center font-mono text-2xl font-bold tracking-[0.5em] bg-slate-50 border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-slate-900 outline-none transition-all"
                     />
                   </div>

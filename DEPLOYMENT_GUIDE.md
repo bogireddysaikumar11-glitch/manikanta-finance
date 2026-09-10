@@ -106,4 +106,4 @@ If you want to keep running the application on your showroom laptop or desktop c
 | **TypeScript** | `npx tsc --noEmit` | Passed (0 errors) |
 | **Security** | `.gitignore` configured to exclude `.env` & `.db` | Configured |
 | **Responsive Views** | Desktop Sidebar + Mobile Bottom Navigation Bar | Verified |
-| **Admin Login** | `admin@manikantafinance.com` / `Admin@Manikanta2026` | Verified |
+| **Admin Login** | `manikantareddy` / `manikanta04` | Verified |
