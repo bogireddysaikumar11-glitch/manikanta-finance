@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
-import { verifyUserCredentials } from "@/lib/auth";
+import { verifyUserCredentials, createSessionCookie } from "@/lib/auth";
 import { recordAuditLog } from "@/lib/audit";
 
 export async function POST(req: Request) {
@@ -33,10 +33,30 @@ export async function POST(req: Request) {
       );
     }
 
-    // Requires 2FA
+    // Create authenticated session cookie immediately
+    createSessionCookie({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      is2FAVerified: true,
+    });
+
+    try {
+      await recordAuditLog({
+        entityType: "AUTH",
+        entityId: String(user.id),
+        action: "LOGIN_SUCCESS",
+        description: `User ${user.email} successfully logged in`,
+        userId: user.id,
+      });
+    } catch (logErr) {
+      console.warn("Audit log warning on success login:", logErr);
+    }
+
     return NextResponse.json({
       success: true,
-      requires2FA: user.twoFactorEnabled,
+      requires2FA: false,
       userId: user.id,
       email: user.email,
       name: user.name,
